@@ -93,7 +93,7 @@ transit_df =
   )
 ```
 
-The dataset contains information about various trains in NYC and the stations each train transits through. Variables of importance include, stations, geographical coordinates of stations, route number and names along with entrance information. So far, the dataset has been filtered to include 19 variables of importance and entry has been changed into a logical variable. There are `r nrow(transit_df)` rows x `r ncol(transit_df)` columns in the dataset.
+The dataset contains information about various trains in NYC and the stations each train transits through. Variables of importance include, stations, geographical coordinates of stations, route number and names along with entrance information. So far, the dataset has been filtered to include 19 variables of importance and entry has been changed into a logical variable. There are `r nrow(transit_df)` rows x `r ncol(transit_df)` columns in the dataset. The data is not tidy as it contains a set of variables namely `route1` to `route11` that are in wide format and can be condensed to long format.
 
 * The total number of distinct stations identified both by name and by line are  `r transit_df %>% distinct(line, station_name) %>% count()` 
 * The total stations that are ADA compliant are `r filter(transit_df, ada == TRUE) %>% distinct(line, station_name) %>% count() `
