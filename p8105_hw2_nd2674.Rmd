@@ -93,8 +93,11 @@ transit_df =
   )
 ```
 
-The dataset contains information about various trains in NYC and the stations each train transits through. Variables of importance include, stations, geographical coordinates of stations, route number and names along with entry information. So far, the dataset has been filtered to include 19 variables of importance and entry has been changed into a logical variable. There are `r nrow(transit_df)` rows x `r ncol(transit_df)` columns in the dataset.
+The dataset contains information about various trains in NYC and the stations each train transits through. Variables of importance include, stations, geographical coordinates of stations, route number and names along with entrance information. So far, the dataset has been filtered to include 19 variables of importance and entry has been changed into a logical variable. There are `r nrow(transit_df)` rows x `r ncol(transit_df)` columns in the dataset.
 
+* The total number of distinct stations identified both by name and by line are  `r transit_df %>% distinct(line, station_name) %>% count()` 
+* The total stations that are ADA compliant are `r filter(transit_df, ada == TRUE) %>% distinct(line, station_name) %>% count() `
+* Stations entrances that exist without vending allow entrance are : `r (filter(transit_df, vending == 'NO') %>% distinct(line, station_name, entrance_type) %>% count()) / (transit_df %>% distinct(line, station_name) %>% count()) `
 
 Reformat route number and name as distinct variables
 
@@ -115,6 +118,11 @@ transit_tidy_df =
 ## cleaning up route number by removing None values 
 transit_tidy_df = filter(transit_tidy_df, route_number != "None")
 ```
+
+On reformatting, it was observed that
+
+* The total number of distinct stations identified both by name and by line serving A train are  `r filter(transit_tidy_df, route_number == "A")  %>% distinct(line, station_name) %>% count()` 
+* The total stations that are ADA compliant of the ones serving the A train are `r filter(transit_tidy_df, route_number == "A" & ada == "TRUE")  %>% distinct(line, station_name) %>% count()` 
 
 # Problem 3
 
@@ -194,3 +202,5 @@ final_merged_df = left_join(combine_df, unemployment_df, by = c("year", "month")
 ```
 
 There were three datasets in this problem namely pols, snp and unemployment. Dataset pols contained whether a national politician was republican or democratic at a given time. Snp contains variables related to S&P's stock market index at a given time. Unemployment contains the unemployment percentages for each month in each year. The final merged dataset consists of all the three datasets merged according to their month and year. It gives an idea of how the unemployment percentages and stock market index correlate with the president at the time.
+
+
